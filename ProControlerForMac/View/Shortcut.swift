@@ -81,7 +81,6 @@ struct SimpleKeyInput: View {
                     DispatchQueue.main.async {
                         self.keyCode = code
                         self.stopListening()
-                        print("✅ キー検出: \(KeyCodeConverter.keyCodeToString(code)) (code: \(code))")
                     }
                 }
                 return nil // イベントを消費
@@ -93,7 +92,6 @@ struct SimpleKeyInput: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             if self.isWaitingForKey {
                 self.stopListening()
-                print("⏱️ キー入力タイムアウト")
             }
         }
     }

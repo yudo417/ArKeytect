@@ -195,20 +195,17 @@ class ShortcutStorage {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(bindings) {
             UserDefaults.standard.set(encoded, forKey: storageKey)
-            print("💾 \(bindings.count)個のショートカットを保存")
         }
     }
     
     /// すべてのショートカット設定を読み込み
     static func loadBindings() -> [ShortcutBinding] {
         guard let data = UserDefaults.standard.data(forKey: storageKey) else {
-            print("📂 保存されたショートカットなし")
             return []
         }
         
         let decoder = JSONDecoder()
         if let decoded = try? decoder.decode([ShortcutBinding].self, from: data) {
-            print("📂 \(decoded.count)個のショートカットを読み込み")
             return decoded
         }
         
@@ -243,7 +240,6 @@ class ShortcutStorage {
     /// すべてのショートカットをクリア
     static func clearAll() {
         UserDefaults.standard.removeObject(forKey: storageKey)
-        print("🗑️ すべてのショートカットを削除")
     }
 }
 

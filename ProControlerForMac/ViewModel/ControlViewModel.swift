@@ -28,13 +28,12 @@ class ControllerMonitor: ObservableObject {
             if let controller = GCController.controllers().first {
                 if self.currentController !== controller {
                     self.currentController = controller
-                    self.isConnected = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) { self.isConnected = true }
                 }
                 
                 guard let gamepad = controller.extendedGamepad else { return }
                 
-                // ポーリングで値を取得（valueChangedHandlerの代わり）
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
                     // 左スティックの状態を更新（デッドゾーン処理）
                     let rawLeftX = gamepad.leftThumbstick.xAxis.value
                     let rawLeftY = gamepad.leftThumbstick.yAxis.value
@@ -82,9 +81,8 @@ class ControllerMonitor: ObservableObject {
                     self.cursorController.scrollWheel(deltaX: scrollX, deltaY: scrollY)
                 }
             } else {
-                // コントローラーが接続されていない
                 if self.isConnected {
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
                         self.isConnected = false
                         self.currentController = nil
                         self.leftStick = (0.0, 0.0)

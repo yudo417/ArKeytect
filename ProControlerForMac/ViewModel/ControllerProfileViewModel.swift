@@ -56,17 +56,17 @@ class ControllerProfileViewModel: ObservableObject {
     // MARK: - Initialization
     
     init() {
-        loadData()
-        setupDefaultData()
-        setupControllerMonitoring()
-        
-        // 自動保存
         $controllers
             .debounce(for: 0.5, scheduler: RunLoop.main)
             .sink { [weak self] _ in
                 self?.saveData()
             }
             .store(in: &cancellables)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { [weak self] in
+            self?.loadData()
+            self?.setupDefaultData()
+            self?.setupControllerMonitoring()
+        }
     }
     
     // MARK: - Controller Management
@@ -159,7 +159,6 @@ class ControllerProfileViewModel: ObservableObject {
         }
         
         controllers[controllerIndex].profiles[profileIndex].dualTriggerLayerId = layerId
-        print("✅ Dual trigger layer set: \(layerId?.uuidString ?? "nil")")
     }
     
     // MARK: - Layer Management
@@ -316,7 +315,6 @@ class ControllerProfileViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.selectedLayerIndex = dualLayerIndex
                 }
-                print("🔄 Layer shift to dual trigger layer: \(dualLayer.name) (ZR+ZL)")
                 return // 同時押しレイヤーが優先される
             }
         }
@@ -332,7 +330,6 @@ class ControllerProfileViewModel: ObservableObject {
                             DispatchQueue.main.async {
                                 self.selectedLayerIndex = targetIndex
                             }
-                            print("🔄 Layer shift: \(selectedLayerIndex) -> \(targetIndex) (Button: \(buttonId))")
                         }
                     } else if !isPressed {
                         // ボタンを離したらデフォルト(0)に戻す（ただし同時押し中は除く）
@@ -340,7 +337,6 @@ class ControllerProfileViewModel: ObservableObject {
                             DispatchQueue.main.async {
                                 self.selectedLayerIndex = 0
                             }
-                            print("🔄 Layer reset to 0 (Button release: \(buttonId))")
                         }
                     }
                     return
@@ -370,7 +366,6 @@ class ControllerProfileViewModel: ObservableObject {
                         DispatchQueue.main.async {
                             self.selectedLayerIndex = zrLayerIndex
                         }
-                        print("🔄 Layer shift to ZR layer: \(zrLayer.name)")
                         return
                     }
                 }
@@ -382,7 +377,6 @@ class ControllerProfileViewModel: ObservableObject {
                         DispatchQueue.main.async {
                             self.selectedLayerIndex = zlLayerIndex
                         }
-                        print("🔄 Layer shift to ZL layer: \(zlLayer.name)")
                         return
                     }
                 }
@@ -399,7 +393,6 @@ class ControllerProfileViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self.selectedLayerIndex = 0
                     }
-                    print("🔄 Layer reset to 0 (Trigger release: \(buttonId))")
                 }
             }
             // レイヤー0の設定を確認
@@ -408,7 +401,6 @@ class ControllerProfileViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self.selectedLayerIndex = 0
                     }
-                    print("🔄 Layer reset to 0 by base trigger (Button release: \(buttonId))")
                 }
             }
         }
@@ -447,7 +439,6 @@ class ControllerProfileViewModel: ObservableObject {
                 downEvent.flags = flags
                 downEvent.post(tap: .cghidEventTap)
                 let modString = modifierFlags.map { KeyCodeConverter.modifiersToString($0) } ?? ""
-                print("🖱️ \(isRightClick ? "Right" : "Left") click down\(modString.isEmpty ? "" : " with \(modString)")")
             }
         } else {
             // マウスアップ
@@ -456,7 +447,6 @@ class ControllerProfileViewModel: ObservableObject {
                 upEvent.flags = flags
                 upEvent.post(tap: .cghidEventTap)
                 let modString = modifierFlags.map { KeyCodeConverter.modifiersToString($0) } ?? ""
-                print("🖱️ \(isRightClick ? "Right" : "Left") click up\(modString.isEmpty ? "" : " with \(modString)")")
             }
         }
     }

@@ -46,6 +46,7 @@ struct DetectedButton: Identifiable, Codable, Hashable {
         if id.contains("buttonMenu") { return "plus.circle.fill" }
         if id.contains("buttonOptions") { return "minus.circle.fill" }  // Screenshotボタン
         if id.contains("buttonHome") { return "house.circle.fill" }
+        if id.contains("buttonCapture") { return "camera.circle.fill" }
         return "circle.fill"
     }
     
@@ -117,18 +118,20 @@ class ButtonDetector: ObservableObject {
         // メニューボタン（3つすべて別々のボタン）
         DetectedButton(id: "buttonMenu", displayName: "+", buttonType: .menu),
         DetectedButton(id: "buttonOptions", displayName: "-", buttonType: .menu),
-        DetectedButton(id: "buttonHome", displayName: "🏠 Home", buttonType: .menu)
+        DetectedButton(id: "buttonHome", displayName: "🏠 Home", buttonType: .menu),
+        DetectedButton(id: "buttonCapture", displayName: "📷 Capture", buttonType: .menu)
     ]
     
     // MARK: - Initialization
     
     init() {
-        loadButtons()
-        loadShortcuts()
-        registerDefaultButtons()
-        setupControllerNotifications()
-//        GCController.shouldMonitorBackgroundEvents = true
-        print("✅ ButtonDetector 準備完了（ボタン:\(registeredButtons.count) ショートカット:\(shortcuts.count)）")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { [weak self] in
+            guard let self = self else { return }
+            self.loadButtons()
+            self.loadShortcuts()
+            self.registerDefaultButtons()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in self?.setupControllerNotifications() }
     }
     
     /// デフォルトのプロコンボタンを登録
@@ -184,7 +187,6 @@ class ButtonDetector: ObservableObject {
         }
         
         startMonitoringAllButtons()
-        print("🎮 \(controller.vendorName ?? "Controller") 接続")
     }
     
     /// システムイベントのブロック設定
@@ -195,7 +197,6 @@ class ButtonDetector: ObservableObject {
                 if pressed {
                     // ショートカットが登録されていれば実行
                     if let shortcut = self?.shortcuts.first(where: { $0.buttonId == "buttonHome" && $0.isEnabled }) {
-                        print("🎮 buttonHome → \(shortcut.displayString)")
                         self?.executeShortcut(shortcut)
                     }
                 }
@@ -209,7 +210,6 @@ class ButtonDetector: ObservableObject {
                 if pressed {
                     // ショートカットが登録されていれば実行
                     if let shortcut = self?.shortcuts.first(where: { $0.buttonId == "buttonOptions" && $0.isEnabled }) {
-                        print("🎮 buttonOptions → \(shortcut.displayString)")
                         self?.executeShortcut(shortcut)
                     }
                 }
@@ -225,7 +225,6 @@ class ButtonDetector: ObservableObject {
         isDetectionMode = true
         detectionMessage = "コントローラーのボタンを押してください..."
         lastDetectedButton = nil
-        print("🔍 ボタン検出モードを開始")
         
         // 既にstartMonitoringAllButtons()はsetupController()で呼ばれているため、
         // ここでは検出モードフラグを立てるだけでOK
@@ -235,8 +234,6 @@ class ButtonDetector: ObservableObject {
     func stopDetection() {
         isDetectionMode = false
         detectionMessage = ""
-        // 検出モード終了後も通常のボタン監視は継続（ショートカット実行のため）
-        print("🔄 検出モード終了 → 通常モードに戻ります")
     }
     
     private func startMonitoringAllButtons() {
@@ -293,8 +290,22 @@ class ButtonDetector: ObservableObject {
             if lastButtonStates[id] != isPressed {
                 lastButtonStates[id] = isPressed
                 onButtonEvent?(id, isPressed)
-                // print("Debug: Button Event \(id) -> \(isPressed)")
             }
+        }
+    }
+    
+    /// HID 由来のボタンイベント（Capture のみ。view 更新外で実行するため asyncAfter）
+    func handleExternalButtonEvent(buttonId: String, pressed: Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) { [weak self] in
+            guard let self = self else { return }
+            if self.lastButtonStates[buttonId] == pressed { return }
+            self.lastButtonStates[buttonId] = pressed
+            self.onButtonEvent?(buttonId, pressed)
+            guard pressed else { return }
+            guard let shortcut = self.shortcuts.first(where: { $0.buttonId == buttonId && $0.isEnabled }) else { return }
+            self.executeShortcut(shortcut)
+            self.lastPressedButtonId = buttonId
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in self?.lastPressedButtonId = nil }
         }
     }
     
@@ -312,16 +323,11 @@ class ButtonDetector: ObservableObject {
             return
         }
         
-        // ショートカット実行
-        print("🎮 \(buttonId) → \(shortcut.displayString)")
         executeShortcut(shortcut)
         
-        // UI更新用
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
             self.lastPressedButtonId = buttonId
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.lastPressedButtonId = nil
-            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in self?.lastPressedButtonId = nil }
         }
     }
     
@@ -508,7 +514,6 @@ class ButtonDetector: ObservableObject {
         }
         // D-Pad
         else if element == gamepad.dpad {
-            print("🔍 D-Pad検出モード: up=\(gamepad.dpad.up.isPressed), down=\(gamepad.dpad.down.isPressed), left=\(gamepad.dpad.left.isPressed), right=\(gamepad.dpad.right.isPressed)")
             if gamepad.dpad.up.isPressed {
                 detectedButton = DetectedButton(
                     id: "dpad_up",
@@ -563,7 +568,6 @@ class ButtonDetector: ObservableObject {
             DispatchQueue.main.async {
                 self.lastDetectedButton = button
                 self.detectionMessage = "検出: \(button.displayName)"
-                print("🎮 ボタン検出: \(button.displayName) (id: \(button.id))")
             }
         }
     }
@@ -576,9 +580,6 @@ class ButtonDetector: ObservableObject {
         if !registeredButtons.contains(where: { $0.id == button.id }) {
             registeredButtons.append(button)
             saveButtons()
-            print("✅ ボタン登録: \(button.displayName)")
-        } else {
-            print("⚠️ 既に登録済み: \(button.displayName)")
         }
     }
     
@@ -596,13 +597,11 @@ class ButtonDetector: ObservableObject {
         let isDefaultButton = Self.defaultProControllerButtons.contains { $0.id == id }
         
         if isDefaultButton {
-            print("⚠️ デフォルトボタンは削除できません: \(id)")
             return
         }
         
         registeredButtons.removeAll { $0.id == id }
         saveButtons()
-        print("🗑️ ボタン削除: \(id)")
     }
     
     /// カスタムボタンのみクリア（デフォルトボタンは保持）
@@ -610,14 +609,12 @@ class ButtonDetector: ObservableObject {
         let defaultButtonIds = Set(Self.defaultProControllerButtons.map { $0.id })
         registeredButtons.removeAll { !defaultButtonIds.contains($0.id) }
         saveButtons()
-        print("🗑️ カスタムボタンをクリア")
     }
     
     /// すべてのボタンをクリア（デフォルトボタンを含む）
     func clearAllButtons() {
         registeredButtons.removeAll()
         saveButtons()
-        print("🗑️ すべてのボタンを削除")
     }
     
     /// デフォルトボタンかどうかを判定
@@ -663,7 +660,6 @@ class ButtonDetector: ObservableObject {
         
         self.shortcuts = newShortcuts
         self.saveShortcuts()
-        // print("🔄 ショートカット同期完了: \(shortcuts.count)個")
     }
     
     /// ショートカットを登録
@@ -680,15 +676,12 @@ class ButtonDetector: ObservableObject {
         )
         shortcuts.append(shortcut)
         saveShortcuts()
-        
-        print("✅ ショートカット登録: \(buttonId) → \(shortcut.displayString)")
     }
     
     /// ショートカットを削除
     func removeShortcut(buttonId: String) {
         shortcuts.removeAll { $0.buttonId == buttonId }
         saveShortcuts()
-        print("🗑️ ショートカット削除: \(buttonId)")
     }
     
     /// 特定のボタンのショートカットを取得
@@ -700,7 +693,6 @@ class ButtonDetector: ObservableObject {
     func clearAllShortcuts() {
         shortcuts.removeAll()
         saveShortcuts()
-        print("🗑️ すべてのショートカットをクリア")
     }
     
     private func saveShortcuts() {

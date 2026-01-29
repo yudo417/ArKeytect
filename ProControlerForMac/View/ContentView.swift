@@ -43,22 +43,22 @@ struct ContentView: View {
             // ControllerMonitorにProfileViewModelへの参照を設定（感度設定を使用するため）
             controllerMonitor.profileViewModel = profileViewModel
             
-            // ButtonDetectorとProfileViewModelの連携（レイヤー切り替えなど）
             buttonDetector.onButtonEvent = { [weak profileViewModel] buttonId, isPressed in
                 profileViewModel?.handleButtonEvent(buttonId: buttonId, isPressed: isPressed)
             }
-            
-            // 既存のButtonDetectorのボタンをデフォルトプロファイルに追加
-            if !hasInitializedButtons {
-                initializeButtonsFromDetector()
-                hasInitializedButtons = true
+            ProControllerHIDInterceptor.shared.onButtonEvent = { [weak buttonDetector] buttonId, pressed in
+                buttonDetector?.handleExternalButtonEvent(buttonId: buttonId, pressed: pressed)
             }
-            
-            // 初回ショートカット同期
-            updateShortcuts()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
+                if !hasInitializedButtons {
+                    initializeButtonsFromDetector()
+                    hasInitializedButtons = true
+                }
+                updateShortcuts()
+            }
         }
         .onChange(of: profileViewModel.selectedLayerIndex) { _ in
-            updateShortcuts()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) { updateShortcuts() }
         }
     }
     

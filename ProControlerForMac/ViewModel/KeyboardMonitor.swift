@@ -37,7 +37,6 @@ class KeyboardMonitor: ObservableObject {
     init() {
         loadBindings()
         setupEventTap()
-        print("⌨️ KeyboardMonitor初期化完了")
     }
     
     // MARK: - Event Tap Setup
@@ -47,7 +46,6 @@ class KeyboardMonitor: ObservableObject {
         // アクセシビリティ権限をチェック
         let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as String: false]
         guard AXIsProcessTrustedWithOptions(options as CFDictionary) else {
-            print("⚠️ アクセシビリティ権限が必要です")
             return
         }
         
@@ -73,7 +71,6 @@ class KeyboardMonitor: ObservableObject {
             callback: callback,
             userInfo: selfPointer
         ) else {
-            print("❌ イベントタップの作成に失敗")
             return
         }
         
@@ -85,8 +82,6 @@ class KeyboardMonitor: ObservableObject {
         
         // イベントタップを有効化
         CGEvent.tapEnable(tap: tap, enable: true)
-        
-        print("✅ キーボード監視開始")
     }
     
     /// キーイベントを処理
@@ -111,7 +106,6 @@ class KeyboardMonitor: ObservableObject {
             if isMatch(keyCode: keyCode, modifiers: modifiers, binding: binding) {
                 // 一致したボタンを通知
                 DispatchQueue.main.async { [weak self] in
-                    print("🔥 ショートカット検出: \(binding.button.displayName) (\(binding.displayString))")
                     self?.detectedButton = binding.button
                     
                     // 0.3秒後にリセット
@@ -170,14 +164,11 @@ class KeyboardMonitor: ObservableObject {
         
         // 新しい設定を追加
         bindings.append(binding)
-        
-        print("✅ ショートカット登録: \(button.displayName) → \(binding.displayString)")
     }
     
     /// ショートカットを削除
     func removeShortcut(for button: ControllerButton) {
         bindings.removeAll { $0.button == button }
-        print("🗑️ ショートカット削除: \(button.displayName)")
     }
     
     /// 特定のボタンのショートカットを取得
@@ -189,7 +180,6 @@ class KeyboardMonitor: ObservableObject {
     func clearAll() {
         bindings.removeAll()
         ShortcutStorage.clearAll()
-        print("🗑️ すべてのショートカットをクリア")
     }
     
     // MARK: - Persistence
@@ -197,7 +187,6 @@ class KeyboardMonitor: ObservableObject {
     /// 設定を読み込み
     private func loadBindings() {
         bindings = ShortcutStorage.loadBindings()
-        print("📂 \(bindings.count)個のショートカットを読み込み")
     }
     
     // MARK: - Cleanup
@@ -209,6 +198,5 @@ class KeyboardMonitor: ObservableObject {
         if let source = runLoopSource {
             CFRunLoopRemoveSource(CFRunLoopGetCurrent(), source, .commonModes)
         }
-        print("👋 KeyboardMonitor解放")
     }
 }

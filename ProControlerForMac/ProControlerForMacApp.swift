@@ -9,6 +9,7 @@ struct ProControlerForMacApp: App {
     @StateObject private var controllerHandler = ControllerMonitor()
     
     init() {
+        ProControllerHIDInterceptor.initializeEarly()
         GCController.shouldMonitorBackgroundEvents = true
         requestAccessibilityPermission()
     }

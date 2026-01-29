@@ -260,7 +260,7 @@ struct ContentListView: View {
         } else {
             // レイヤー削除などでインデックスが範囲外になった場合のフォールバック
             Text("レイヤーが選択されていません")
-                .onAppear { profileViewModel.selectedLayerIndex = 0 }
+                .onAppear { DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { profileViewModel.selectedLayerIndex = 0 } }
         }
     }
 
