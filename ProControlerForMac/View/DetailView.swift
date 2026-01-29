@@ -130,6 +130,20 @@ struct ButtonConfigDetailView: View {
                 .padding(.vertical, 20)
             }
             
+            if buttonConfig.detectedButtonId == "buttonHome" {
+                Section {
+                    Label {
+                        Text("環境によっては「Game Center」等のAppが開き，機能しない場合がございます")
+//                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    } icon: {
+                        Image(systemName: "info.circle.fill")
+                            .foregroundColor(.orange)
+                    }
+                    .padding(.vertical, 4)
+                }
+            }
+            
             // 動作モード選択
             Section("動作モード") {
                 Picker("種類", selection: $actionType) {

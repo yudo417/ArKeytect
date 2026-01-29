@@ -118,8 +118,8 @@ class ButtonDetector: ObservableObject {
         // メニューボタン（3つすべて別々のボタン）
         DetectedButton(id: "buttonMenu", displayName: "+", buttonType: .menu),
         DetectedButton(id: "buttonOptions", displayName: "-", buttonType: .menu),
-        DetectedButton(id: "buttonHome", displayName: "🏠 Home", buttonType: .menu),
-        DetectedButton(id: "buttonCapture", displayName: "📷 Capture", buttonType: .menu)
+        DetectedButton(id: "buttonHome", displayName: "Home", buttonType: .menu),
+        DetectedButton(id: "buttonCapture", displayName: "Capture", buttonType: .menu)
     ]
     
     // MARK: - Initialization
