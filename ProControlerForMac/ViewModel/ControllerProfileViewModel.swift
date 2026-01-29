@@ -34,6 +34,9 @@ class ControllerProfileViewModel: ObservableObject {
     // ZR/ZLの状態追跡（同時押し判定用）
     private var isZRPressed: Bool = false
     private var isZLPressed: Bool = false
+    /// 左/右クリックボタンが押しっぱなしか（ドラッグ時にスティックで leftMouseDragged を送るため）
+    private(set) var isLeftClickButtonHeld: Bool = false
+    private(set) var isRightClickButtonHeld: Bool = false
     /// 選択中のコントローラー
     var selectedController: Controller? {
         guard let id = selectedControllerId else { return nil }
@@ -433,20 +436,26 @@ class ControllerProfileViewModel: ObservableObject {
         }
         
         if isPressed {
-            // マウスダウン
+            if isRightClick {
+                isRightClickButtonHeld = true
+            } else {
+                isLeftClickButtonHeld = true
+            }
             let eventType: CGEventType = isRightClick ? .rightMouseDown : .leftMouseDown
             if let downEvent = CGEvent(mouseEventSource: nil, mouseType: eventType, mouseCursorPosition: position, mouseButton: mouseButton) {
                 downEvent.flags = flags
                 downEvent.post(tap: .cghidEventTap)
-                let modString = modifierFlags.map { KeyCodeConverter.modifiersToString($0) } ?? ""
             }
         } else {
-            // マウスアップ
+            if isRightClick {
+                isRightClickButtonHeld = false
+            } else {
+                isLeftClickButtonHeld = false
+            }
             let eventType: CGEventType = isRightClick ? .rightMouseUp : .leftMouseUp
             if let upEvent = CGEvent(mouseEventSource: nil, mouseType: eventType, mouseCursorPosition: position, mouseButton: mouseButton) {
                 upEvent.flags = flags
                 upEvent.post(tap: .cghidEventTap)
-                let modString = modifierFlags.map { KeyCodeConverter.modifiersToString($0) } ?? ""
             }
         }
     }

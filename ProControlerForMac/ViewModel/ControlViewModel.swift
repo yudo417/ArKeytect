@@ -56,10 +56,16 @@ class ControllerMonitor: ObservableObject {
                     let leftSensitivity = self.profileViewModel?.currentStickSensitivity(isLeftStick: true) ?? 10.0
                     let rightSensitivity = self.profileViewModel?.currentStickSensitivity(isLeftStick: false) ?? 10.0
                     
-                    // 左スティック：カーソル移動
+                    // 左スティック：カーソル移動（左/右クリック押下中はドラッグとして送る）
                     let deltaX = processedLeftX * Float(leftSensitivity)
                     let deltaY = -processedLeftY * Float(leftSensitivity)
-                    self.cursorController.moveCursor(deltaX: deltaX, deltaY: deltaY)
+                    if self.profileViewModel?.isLeftClickButtonHeld == true {
+                        self.cursorController.moveCursorWhileLeftButtonDown(deltaX: deltaX, deltaY: deltaY)
+                    } else if self.profileViewModel?.isRightClickButtonHeld == true {
+                        self.cursorController.moveCursorWhileRightButtonDown(deltaX: deltaX, deltaY: deltaY)
+                    } else {
+                        self.cursorController.moveCursor(deltaX: deltaX, deltaY: deltaY)
+                    }
                     
                     // 右スティック：スクロール
                     // 方向設定を取得
@@ -108,15 +114,32 @@ class CursorController :ObservableObject {
     }
 
     func moveCursor(deltaX: Float, deltaY: Float) {
-        // デルタがゼロの場合は何もしない（不要なイベント送信を削減）
         guard deltaX != 0 || deltaY != 0 else { return }
-        
         let currentPosition = getPosition()
         let newX = currentPosition.x + CGFloat(deltaX)
         let newY = currentPosition.y + CGFloat(deltaY)
-        
         if let moveEvent = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved, mouseCursorPosition: CGPoint(x: newX, y: newY), mouseButton: .left) {
             moveEvent.post(tap: .cghidEventTap)
+        }
+    }
+    
+    func moveCursorWhileLeftButtonDown(deltaX: Float, deltaY: Float) {
+        guard deltaX != 0 || deltaY != 0 else { return }
+        let currentPosition = getPosition()
+        let newX = currentPosition.x + CGFloat(deltaX)
+        let newY = currentPosition.y + CGFloat(deltaY)
+        if let dragEvent = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDragged, mouseCursorPosition: CGPoint(x: newX, y: newY), mouseButton: .left) {
+            dragEvent.post(tap: .cghidEventTap)
+        }
+    }
+    
+    func moveCursorWhileRightButtonDown(deltaX: Float, deltaY: Float) {
+        guard deltaX != 0 || deltaY != 0 else { return }
+        let currentPosition = getPosition()
+        let newX = currentPosition.x + CGFloat(deltaX)
+        let newY = currentPosition.y + CGFloat(deltaY)
+        if let dragEvent = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDragged, mouseCursorPosition: CGPoint(x: newX, y: newY), mouseButton: .right) {
+            dragEvent.post(tap: .cghidEventTap)
         }
     }
     
