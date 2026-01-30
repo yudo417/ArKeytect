@@ -311,7 +311,7 @@ class ButtonDetector: ObservableObject {
     
     /// ショートカット実行のためのボタン押下処理
     private func handleButtonPressForShortcut(from gamepad: GCExtendedGamepad, element: GCControllerElement) {
-        // ボタンIDを取得
+        guard ControllerEnabledState.shared.isControllerEnabled else { return }
         guard let buttonId = getButtonId(from: gamepad, element: element) else {
             // ボタンが押されていない場合（リリース時）は何もしない
             return
@@ -375,6 +375,7 @@ class ButtonDetector: ObservableObject {
     
     /// ショートカットを実行
     private func executeShortcut(_ shortcut: DynamicShortcutBinding) {
+        guard ControllerEnabledState.shared.isControllerEnabled else { return }
         let keyCode = CGKeyCode(shortcut.keyCode)
         
         // 修飾キーを取得

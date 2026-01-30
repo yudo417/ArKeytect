@@ -44,9 +44,11 @@ struct ContentView: View {
             controllerMonitor.profileViewModel = profileViewModel
             
             buttonDetector.onButtonEvent = { [weak profileViewModel] buttonId, isPressed in
+                guard ControllerEnabledState.shared.isControllerEnabled else { return }
                 profileViewModel?.handleButtonEvent(buttonId: buttonId, isPressed: isPressed)
             }
             ProControllerHIDInterceptor.shared.onButtonEvent = { [weak buttonDetector] buttonId, pressed in
+                guard ControllerEnabledState.shared.isControllerEnabled else { return }
                 buttonDetector?.handleExternalButtonEvent(buttonId: buttonId, pressed: pressed)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {

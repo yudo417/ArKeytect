@@ -34,6 +34,7 @@ class ControllerMonitor: ObservableObject {
                 guard let gamepad = controller.extendedGamepad else { return }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+                    guard ControllerEnabledState.shared.isControllerEnabled else { return }
                     // 左スティックの状態を更新（デッドゾーン処理）
                     let rawLeftX = gamepad.leftThumbstick.xAxis.value
                     let rawLeftY = gamepad.leftThumbstick.yAxis.value
