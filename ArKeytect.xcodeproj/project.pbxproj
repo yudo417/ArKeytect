@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EC72FD802F3319E300B18FA4 /* ShortcutRecorder in Frameworks */ = {isa = PBXBuildFile; productRef = EC253DDC2EABBD320033BFB3 /* ShortcutRecorder */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		ECDF1D142D0745F700866DFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC72FD802F3319E300B18FA4 /* ShortcutRecorder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

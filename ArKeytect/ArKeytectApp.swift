@@ -67,10 +67,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private func updateStatusItemIcon() {
         let enabled = ControllerEnabledState.shared.isControllerEnabled
-        let name = enabled ? "gamecontroller.fill" : "gamecontroller"
-        if let image = NSImage(systemSymbolName: name, accessibilityDescription: "ProController") {
-            image.isTemplate = true
-            statusItem?.button?.image = image
+        
+        // Debug
+//        let onExists  = NSImage(named: "OnIcon")  != nil
+//        let offExists = NSImage(named: "OffIcon") != nil
+        let customName = enabled ? "OnIcon" : "OffIcon"
+        if let customImage = NSImage(named: customName) {
+            statusItem?.button?.image = customImage
+            return
+        } else {
+            print(" -> custom image NOT found for", customName)
+        }
+
+        let fallbackSymbol = enabled ? "gamecontroller.fill" : "gamecontroller"
+        if let fallbackImage = NSImage(systemSymbolName: fallbackSymbol, accessibilityDescription: "ProController") {
+            fallbackImage.isTemplate = true
+            statusItem?.button?.image = fallbackImage
         } else {
             statusItem?.button?.title = "🎮"
         }
