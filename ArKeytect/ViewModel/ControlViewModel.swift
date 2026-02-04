@@ -119,7 +119,15 @@ class CursorController :ObservableObject {
         let currentPosition = getPosition()
         let newX = currentPosition.x + CGFloat(deltaX)
         let newY = currentPosition.y + CGFloat(deltaY)
+        
+        // カーソル位置を更新
+        CGWarpMouseCursorPosition(CGPoint(x: newX, y: newY))
+        
+        // 相対移動量を設定したマウス移動イベントを送る（ゲームが検出できるように）
         if let moveEvent = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved, mouseCursorPosition: CGPoint(x: newX, y: newY), mouseButton: .left) {
+            // 相対移動量を設定
+            moveEvent.setIntegerValueField(.mouseEventDeltaX, value: Int64(deltaX))
+            moveEvent.setIntegerValueField(.mouseEventDeltaY, value: Int64(deltaY))
             moveEvent.post(tap: .cghidEventTap)
         }
     }
@@ -129,7 +137,14 @@ class CursorController :ObservableObject {
         let currentPosition = getPosition()
         let newX = currentPosition.x + CGFloat(deltaX)
         let newY = currentPosition.y + CGFloat(deltaY)
+        
+        // カーソル位置を更新
+        CGWarpMouseCursorPosition(CGPoint(x: newX, y: newY))
+        
         if let dragEvent = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDragged, mouseCursorPosition: CGPoint(x: newX, y: newY), mouseButton: .left) {
+            // 相対移動量を設定
+            dragEvent.setIntegerValueField(.mouseEventDeltaX, value: Int64(deltaX))
+            dragEvent.setIntegerValueField(.mouseEventDeltaY, value: Int64(deltaY))
             dragEvent.post(tap: .cghidEventTap)
         }
     }
@@ -139,7 +154,14 @@ class CursorController :ObservableObject {
         let currentPosition = getPosition()
         let newX = currentPosition.x + CGFloat(deltaX)
         let newY = currentPosition.y + CGFloat(deltaY)
+        
+        // カーソル位置を更新
+        CGWarpMouseCursorPosition(CGPoint(x: newX, y: newY))
+        
         if let dragEvent = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDragged, mouseCursorPosition: CGPoint(x: newX, y: newY), mouseButton: .right) {
+            // 相対移動量を設定
+            dragEvent.setIntegerValueField(.mouseEventDeltaX, value: Int64(deltaX))
+            dragEvent.setIntegerValueField(.mouseEventDeltaY, value: Int64(deltaY))
             dragEvent.post(tap: .cghidEventTap)
         }
     }
