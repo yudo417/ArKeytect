@@ -28,25 +28,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		ECDF1D022D0745F600866DFA /* ProControlerForMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProControlerForMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		ECDF1D132D0745F700866DFA /* ProControlerForMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProControlerForMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		ECDF1D1D2D0745F700866DFA /* ProControlerForMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProControlerForMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECDF1D022D0745F600866DFA /* ArKeytect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArKeytect.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECDF1D132D0745F700866DFA /* ArKeytectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArKeytectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECDF1D1D2D0745F700866DFA /* ArKeytectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArKeytectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		ECDF1D042D0745F600866DFA /* ProControlerForMac */ = {
+		ECDF1D042D0745F600866DFA /* ArKeytect */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ProControlerForMac;
+			path = ArKeytect;
 			sourceTree = "<group>";
 		};
-		ECDF1D162D0745F700866DFA /* ProControlerForMacTests */ = {
+		ECDF1D162D0745F700866DFA /* ArKeytectTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ProControlerForMacTests;
+			path = ArKeytectTests;
 			sourceTree = "<group>";
 		};
-		ECDF1D202D0745F700866DFA /* ProControlerForMacUITests */ = {
+		ECDF1D202D0745F700866DFA /* ArKeytectUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ProControlerForMacUITests;
+			path = ArKeytectUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -87,9 +87,9 @@
 		ECDF1CF92D0745F600866DFA = {
 			isa = PBXGroup;
 			children = (
-				ECDF1D042D0745F600866DFA /* ProControlerForMac */,
-				ECDF1D162D0745F700866DFA /* ProControlerForMacTests */,
-				ECDF1D202D0745F700866DFA /* ProControlerForMacUITests */,
+				ECDF1D042D0745F600866DFA /* ArKeytect */,
+				ECDF1D162D0745F700866DFA /* ArKeytectTests */,
+				ECDF1D202D0745F700866DFA /* ArKeytectUITests */,
 				EC253DDB2EABBD320033BFB3 /* Frameworks */,
 				ECDF1D032D0745F600866DFA /* Products */,
 			);
@@ -98,9 +98,9 @@
 		ECDF1D032D0745F600866DFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ECDF1D022D0745F600866DFA /* ProControlerForMac.app */,
-				ECDF1D132D0745F700866DFA /* ProControlerForMacTests.xctest */,
-				ECDF1D1D2D0745F700866DFA /* ProControlerForMacUITests.xctest */,
+				ECDF1D022D0745F600866DFA /* ArKeytect.app */,
+				ECDF1D132D0745F700866DFA /* ArKeytectTests.xctest */,
+				ECDF1D1D2D0745F700866DFA /* ArKeytectUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,9 +108,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ECDF1D012D0745F600866DFA /* ProControlerForMac */ = {
+		ECDF1D012D0745F600866DFA /* ArKeytect */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECDF1D272D0745F700866DFA /* Build configuration list for PBXNativeTarget "ProControlerForMac" */;
+			buildConfigurationList = ECDF1D272D0745F700866DFA /* Build configuration list for PBXNativeTarget "ArKeytect" */;
 			buildPhases = (
 				ECDF1CFE2D0745F600866DFA /* Sources */,
 				ECDF1CFF2D0745F600866DFA /* Frameworks */,
@@ -121,19 +121,19 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				ECDF1D042D0745F600866DFA /* ProControlerForMac */,
+				ECDF1D042D0745F600866DFA /* ArKeytect */,
 			);
-			name = ProControlerForMac;
+			name = ArKeytect;
 			packageProductDependencies = (
 				EC253DDC2EABBD320033BFB3 /* ShortcutRecorder */,
 			);
 			productName = ProControlerForMac;
-			productReference = ECDF1D022D0745F600866DFA /* ProControlerForMac.app */;
+			productReference = ECDF1D022D0745F600866DFA /* ArKeytect.app */;
 			productType = "com.apple.product-type.application";
 		};
-		ECDF1D122D0745F700866DFA /* ProControlerForMacTests */ = {
+		ECDF1D122D0745F700866DFA /* ArKeytectTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECDF1D2A2D0745F700866DFA /* Build configuration list for PBXNativeTarget "ProControlerForMacTests" */;
+			buildConfigurationList = ECDF1D2A2D0745F700866DFA /* Build configuration list for PBXNativeTarget "ArKeytectTests" */;
 			buildPhases = (
 				ECDF1D0F2D0745F700866DFA /* Sources */,
 				ECDF1D102D0745F700866DFA /* Frameworks */,
@@ -145,18 +145,18 @@
 				ECDF1D152D0745F700866DFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				ECDF1D162D0745F700866DFA /* ProControlerForMacTests */,
+				ECDF1D162D0745F700866DFA /* ArKeytectTests */,
 			);
-			name = ProControlerForMacTests;
+			name = ArKeytectTests;
 			packageProductDependencies = (
 			);
 			productName = ProControlerForMacTests;
-			productReference = ECDF1D132D0745F700866DFA /* ProControlerForMacTests.xctest */;
+			productReference = ECDF1D132D0745F700866DFA /* ArKeytectTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		ECDF1D1C2D0745F700866DFA /* ProControlerForMacUITests */ = {
+		ECDF1D1C2D0745F700866DFA /* ArKeytectUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECDF1D2D2D0745F700866DFA /* Build configuration list for PBXNativeTarget "ProControlerForMacUITests" */;
+			buildConfigurationList = ECDF1D2D2D0745F700866DFA /* Build configuration list for PBXNativeTarget "ArKeytectUITests" */;
 			buildPhases = (
 				ECDF1D192D0745F700866DFA /* Sources */,
 				ECDF1D1A2D0745F700866DFA /* Frameworks */,
@@ -168,13 +168,13 @@
 				ECDF1D1F2D0745F700866DFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				ECDF1D202D0745F700866DFA /* ProControlerForMacUITests */,
+				ECDF1D202D0745F700866DFA /* ArKeytectUITests */,
 			);
-			name = ProControlerForMacUITests;
+			name = ArKeytectUITests;
 			packageProductDependencies = (
 			);
 			productName = ProControlerForMacUITests;
-			productReference = ECDF1D1D2D0745F700866DFA /* ProControlerForMacUITests.xctest */;
+			productReference = ECDF1D1D2D0745F700866DFA /* ArKeytectUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -200,7 +200,7 @@
 					};
 				};
 			};
-			buildConfigurationList = ECDF1CFD2D0745F600866DFA /* Build configuration list for PBXProject "ProControlerForMac" */;
+			buildConfigurationList = ECDF1CFD2D0745F600866DFA /* Build configuration list for PBXProject "ArKeytect" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -217,9 +217,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ECDF1D012D0745F600866DFA /* ProControlerForMac */,
-				ECDF1D122D0745F700866DFA /* ProControlerForMacTests */,
-				ECDF1D1C2D0745F700866DFA /* ProControlerForMacUITests */,
+				ECDF1D012D0745F600866DFA /* ArKeytect */,
+				ECDF1D122D0745F700866DFA /* ArKeytectTests */,
+				ECDF1D1C2D0745F700866DFA /* ArKeytectUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -275,12 +275,12 @@
 /* Begin PBXTargetDependency section */
 		ECDF1D152D0745F700866DFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = ECDF1D012D0745F600866DFA /* ProControlerForMac */;
+			target = ECDF1D012D0745F600866DFA /* ArKeytect */;
 			targetProxy = ECDF1D142D0745F700866DFA /* PBXContainerItemProxy */;
 		};
 		ECDF1D1F2D0745F700866DFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = ECDF1D012D0745F600866DFA /* ProControlerForMac */;
+			target = ECDF1D012D0745F600866DFA /* ArKeytect */;
 			targetProxy = ECDF1D1E2D0745F700866DFA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -478,7 +478,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProControlerForMac.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ProControlerForMac";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ArKeytect.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ArKeytect";
 			};
 			name = Debug;
 		};
@@ -496,7 +496,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProControlerForMac.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ProControlerForMac";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ArKeytect.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ArKeytect";
 			};
 			name = Release;
 		};
@@ -535,7 +535,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ECDF1CFD2D0745F600866DFA /* Build configuration list for PBXProject "ProControlerForMac" */ = {
+		ECDF1CFD2D0745F600866DFA /* Build configuration list for PBXProject "ArKeytect" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECDF1D252D0745F700866DFA /* Debug */,
@@ -544,7 +544,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ECDF1D272D0745F700866DFA /* Build configuration list for PBXNativeTarget "ProControlerForMac" */ = {
+		ECDF1D272D0745F700866DFA /* Build configuration list for PBXNativeTarget "ArKeytect" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECDF1D282D0745F700866DFA /* Debug */,
@@ -553,7 +553,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ECDF1D2A2D0745F700866DFA /* Build configuration list for PBXNativeTarget "ProControlerForMacTests" */ = {
+		ECDF1D2A2D0745F700866DFA /* Build configuration list for PBXNativeTarget "ArKeytectTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECDF1D2B2D0745F700866DFA /* Debug */,
@@ -562,7 +562,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ECDF1D2D2D0745F700866DFA /* Build configuration list for PBXNativeTarget "ProControlerForMacUITests" */ = {
+		ECDF1D2D2D0745F700866DFA /* Build configuration list for PBXNativeTarget "ArKeytectUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECDF1D2E2D0745F700866DFA /* Debug */,

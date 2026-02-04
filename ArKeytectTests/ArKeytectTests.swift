@@ -1,9 +1,4 @@
-//
-//  ProControlerForMacTests.swift
-//  ProControlerForMacTests
-//
-//  Created by 林　一貴 on 2024/12/10.
-//
+
 
 import Testing
 @testable import ProControlerForMac
