@@ -4,7 +4,6 @@ import SwiftUI
 struct ContentListView: View {
     @ObservedObject var profileViewModel: ControllerProfileViewModel
     @ObservedObject var buttonDetector: ButtonDetector
-    @State private var showingAddButton = false
     @State private var showingDeleteAlert = false
     @State private var isshowpopover: Bool = false
 
@@ -23,22 +22,6 @@ struct ContentListView: View {
                     layerContentList(profile: profile) // リスト
                 }
                 .navigationTitle(profile.name)
-                .toolbar {
-                    ToolbarItem(placement: .automatic) {
-                        Button {
-                            showingAddButton = true
-                        } label: {
-                            Label("ボタンを追加", systemImage: "plus.circle")
-                        }
-                    }
-                }
-                .sheet(isPresented: $showingAddButton) {
-                    AddButtonConfigSheet(
-                        profileViewModel: profileViewModel,
-                        buttonDetector: buttonDetector,
-                        isPresented: $showingAddButton
-                    )
-                }
             } else {
                 // プロファイル未選択時のプレースホルダー
                 VStack(spacing: 24) {
