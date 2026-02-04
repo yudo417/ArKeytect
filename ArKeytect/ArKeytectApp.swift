@@ -104,10 +104,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc func rightMenuClicked() {
         let menu = NSMenu()
-        
-        // 「このアプリについて」
+
         let aboutItem = NSMenuItem(
-            title: "このアプリについて",
+            title: "ArKeytectについて",
             action: #selector(openinfo),
             keyEquivalent: ""
         )
@@ -117,11 +116,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             aboutItem.image = resizedImage
         }
         menu.addItem(aboutItem)
-        
-        // セパレーター
+
         menu.addItem(NSMenuItem.separator())
 
-        // 設定（構築）
         let settingsItem = NSMenuItem(
             title: "構築",
             action: #selector(opensettings),
@@ -133,11 +130,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             settingsItem.image = resizedImage
         }
         menu.addItem(settingsItem)
-        
-        // セパレーター
+
         menu.addItem(NSMenuItem.separator())
         
-        // 終了
         let quitItem = NSMenuItem(
             title: "終了",
             action: #selector(quitApp),
