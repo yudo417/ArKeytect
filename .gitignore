@@ -35,6 +35,6 @@ Temporary Items
 *.icloud
 
 test.swift
-Docs/*
+Docs/*.md
 
 # End of https://www.toptal.com/developers/gitignore/api/macos
