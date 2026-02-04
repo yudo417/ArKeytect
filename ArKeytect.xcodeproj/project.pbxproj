@@ -12,14 +12,14 @@
 			containerPortal = ECDF1CFA2D0745F600866DFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = ECDF1D012D0745F600866DFA;
-			remoteInfo = ProControlerForMac;
+			remoteInfo = ArKeytect;
 		};
 		ECDF1D1E2D0745F700866DFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ECDF1CFA2D0745F600866DFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = ECDF1D012D0745F600866DFA;
-			remoteInfo = ProControlerForMac;
+			remoteInfo = ArKeytect;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -122,7 +122,7 @@
 			packageProductDependencies = (
 				EC253DDC2EABBD320033BFB3 /* ShortcutRecorder */,
 			);
-			productName = ProControlerForMac;
+			productName = ArKeytect;
 			productReference = ECDF1D022D0745F600866DFA /* ArKeytect.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -404,11 +404,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ProControlerForMac/ProControlerForMac.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ArKeytect/ProControlerForMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ProControlerForMac/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ArKeytect/Preview Content\"";
 				DEVELOPMENT_TEAM = K6CP3MSN8S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -434,11 +434,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ProControlerForMac/ProControlerForMac.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ArKeytect/ProControlerForMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ProControlerForMac/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ArKeytect/Preview Content\"";
 				DEVELOPMENT_TEAM = K6CP3MSN8S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -507,7 +507,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = ProControlerForMac;
+				TEST_TARGET_NAME = ArKeytect;
 			};
 			name = Debug;
 		};
@@ -523,7 +523,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = ProControlerForMac;
+				TEST_TARGET_NAME = ArKeytect;
 			};
 			name = Release;
 		};
