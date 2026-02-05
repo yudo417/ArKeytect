@@ -2,10 +2,21 @@
 
 ![Swift](https://img.shields.io/badge/Swift-F05138?logo=swift&logoColor=white)
 ![Platform](https://img.shields.io/badge/platform-macOS%2013.0%2B-lightgrey.svg)
-![App Store](https://img.shields.io/badge/App%20Store-Available-blue?logo=app-store&logoColor=white)
+<!-- ![App Store](https://img.shields.io/badge/App%20Store-Available-blue?logo=app-store&logoColor=white) -->
 
 **Nintendo Switch Pro ControllerをmacOSでキーボード・マウスとして使えるキーマッピングアプリです．**
 
+
+## 💻 システム条件
+
+| プラットフォーム | 対応バージョン |
+|------------------|----------------|
+| **macOS** | macOS 13.0 (Ventura) 以降 |
+
+> **重要**:
+> - Apple シリコン搭載のMacを推奨します
+> - Nintendo Switch Pro Controllerが必要です
+<!-- > - アクセシビリティ権限が必要です（初回起動時に許可を求められます） -->
 
 
 ## 📋 特徴
@@ -29,48 +40,10 @@ ArKeytectは，Switch - ProControllerを使ってMacを快適に操作できる�
 4. **高度な機能**
    - レイヤー切り替えアクション
    - マウスクリック操作
-   - 長押し・連射設定（将来実装予定）
 
 
-## 💻 システム条件
 
-| プラットフォーム | 対応バージョン |
-|------------------|----------------|
-| **macOS** | macOS 13.0 (Ventura) 以降 |
-
-> **重要**:
-> - Apple シリコン搭載のMacを推奨します
-> - Nintendo Switch Pro Controllerが必要です
-> - アクセシビリティ権限が必要です（初回起動時に許可を求められます）
-
-
-## 💿 インストール方法
-
-[リリースページ](https://github.com/yudo417/ProControlerForMac/releases)から最新版をダウンロードしてください．
-
-ここでは最新バージョンを`{version}`とします．
-
-### macOS版のインストール
-
-1. `ArKeytect-v{version}-macOS.zip`をダウンロードしてください
-2. ZIPファイルをダブルクリックして解凍してください
-3. 解凍された`ArKeytect.app`を「アプリケーション」フォルダにドラッグ＆ドロップしてください
-4. `ArKeytect.app`をダブルクリックして起動してください
-
-> **注意**
-> - .appの起動時に警告が出て開けない場合がございます．その際は
->   - 「システム設定 → プライバシーとセキュリティ → セキュリティ」から「このまま開く」を選択して起動してください
-> - 初回起動時に**アクセシビリティ権限**の許可を求められます
->   - 「システム設定 → プライバシーとセキュリティ → アクセシビリティ」でArKeytectを許可してください
-
-
-## 🎮 使い方
-
-### 初期設定
-
-1. Pro ControllerをMacにBluetooth接続してください
-2. ArKeytectを起動すると，メニューバーにアイコンが表示されます
-3. メニューバーアイコンをクリックして「設定を開く」を選択してください
+<!-- ## 🎮 使い方
 
 ### プロファイル作成
 
@@ -90,29 +63,7 @@ ArKeytectは，Switch - ProControllerを使ってMacを快適に操作できる�
 各ボタンには以下のアクションを設定できます:
 - **キー入力**: キーボードのキーを送信
 - **マウスクリック**: 左クリック/右クリック
-- **レイヤー切り替え**: 指定したレイヤーに切り替え
-
-
-## 🔒 セキュリティとプライバシー
-
-[プライバシーポリシー](https://yudo417.github.io/ArKeytect/)
-
-### 🚫 安全設計
-- **個人情報の収集は一切行いません**
-- **データの外部送信は行いません**
-- **使用状況の追跡は行いません**
-- **広告の表示は行いません**
-
-### ✅ 安全性について
-- **完全ローカル処理**: すべての処理はお使いのMac内で完結します
-- **オープンソース**: 本ソフトのソースコードは全て公開しており，動作内容を確認できます
-- **設定データの保存**: プロファイル設定はUserDefaultsに保存されます
-
-### 🔑 必要な権限
-- **アクセシビリティ権限**: キーボード・マウスイベントの送信に必要です
-- **入力監視権限**: コントローラーの入力を監視するために必要です
-
-
+- **レイヤー切り替え**: 指定したレイヤーに切り替え -->
 
 
 ## 機能要望・バグ報告
@@ -121,15 +72,7 @@ ArKeytectは，Switch - ProControllerを使ってMacを快適に操作できる�
 技術的に可能であれば積極的に検討いたします（ｵﾏﾁｼﾃｵﾘﾏｽ）    
 [@yudouhu_Cke](https://x.com/yudouhu_Cke)
 
-または，[GitHub Issues](https://github.com/yudo417/ProControlerForMac/issues)でも受け付けています．
-
 
 ## 📜 ライセンス
 
 [MIT License](https://github.com/yudo417/ProControlerForMac/blob/main/LICENSE)
-
-
-## 🙏 謝辞
-
-このプロジェクトは，ゲームコントローラーをより便利に活用したいという思いから生まれました．  
-ご利用いただき，ありがとうございます！
