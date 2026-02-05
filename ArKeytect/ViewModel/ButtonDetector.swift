@@ -203,19 +203,6 @@ class ButtonDetector: ObservableObject {
                 // イベントを消費してシステムに渡さない
             }
         }
-        
-        // Optionsボタン（Screenshot）をブロック（画面収録ダイアログを防ぐ）
-        if let optionsButton = gamepad.buttonOptions {
-            optionsButton.pressedChangedHandler = { [weak self] button, value, pressed in
-                if pressed {
-                    // ショートカットが登録されていれば実行
-                    if let shortcut = self?.shortcuts.first(where: { $0.buttonId == "buttonOptions" && $0.isEnabled }) {
-                        self?.executeShortcut(shortcut)
-                    }
-                }
-                // イベントを消費してシステムに渡さない
-            }
-        }
     }
     
     // MARK: - Detection Mode
