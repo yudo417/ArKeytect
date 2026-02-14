@@ -477,7 +477,7 @@ struct StickSensitivityDetailView: View {
     let profileId: UUID
     @ObservedObject var profileViewModel: ControllerProfileViewModel
     
-    @State private var sensitivity: Double = 30.0
+    @State private var sensitivity: Double = ControlConstants.defaultSensitivityForProfile
     @State private var showingSaveAlert = false
     @State private var verticalInverted: Bool = true
     @State private var horizontalInverted: Bool = true
@@ -528,14 +528,14 @@ struct StickSensitivityDetailView: View {
                             .foregroundColor(.accentColor)
                     }
                     
-                    Slider(value: $sensitivity, in: 1.0...100.0, step: 1) {
+                    Slider(value: $sensitivity, in: ControlConstants.sensitivitySliderMin...ControlConstants.sensitivitySliderMax, step: ControlConstants.sensitivitySliderStep) {
                         Text("感度")
                     } minimumValueLabel: {
-                        Text("1")
+                        Text("\(Int(ControlConstants.sensitivitySliderMin))")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     } maximumValueLabel: {
-                        Text("100")
+                        Text("\(Int(ControlConstants.sensitivitySliderMax))")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -587,10 +587,10 @@ struct StickSensitivityDetailView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     if isLeftStick {
                         Label("値が大きいほどカーソルが速く動きます", systemImage: "info.circle")
-                        Label("30程度がおすすめ", systemImage: "cursorarrow.motionlines")
+                        Label("\(Int(ControlConstants.defaultSensitivityForProfile))程度がおすすめ", systemImage: "cursorarrow.motionlines")
                     } else {
                         Label("値が大きいほどスクロールが速くなります", systemImage: "info.circle")
-                        Label("30程度がおすすめ", systemImage: "cursorarrow.motionlines")
+                        Label("\(Int(ControlConstants.defaultSensitivityForProfile))程度がおすすめ", systemImage: "cursorarrow.motionlines")
                     }
                 }
 //                .font(.caption)

@@ -500,7 +500,7 @@ class ControllerProfileViewModel: ObservableObject {
     func currentStickSensitivity(isLeftStick: Bool) -> Double {
         guard let profile = selectedProfile,
               selectedLayerIndex < profile.layers.count else {
-            return 10.0 // デフォルト値
+            return ControlConstants.defaultSensitivity
         }
         
         let layer = profile.layers[selectedLayerIndex]

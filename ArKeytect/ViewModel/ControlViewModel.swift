@@ -8,7 +8,7 @@ class ControllerMonitor: ObservableObject {
     @Published var isConnected: Bool = false
     
     private var currentController: GCController?
-    private let deadzone: Float = 0.1
+    private let deadzone: Float = ControlConstants.stickDeadzone
     private let cursorController = CursorController()
     private var updateTimer: Timer?
     
@@ -21,7 +21,7 @@ class ControllerMonitor: ObservableObject {
     
     // MARK: - バックグラウンド入力処理
     private func startBackgroundUpdates() {
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 1/200, repeats: true) { [weak self] _ in
+        updateTimer = Timer.scheduledTimer(withTimeInterval: ControlConstants.inputUpdateInterval, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             
             // 常にGCController.controllers()から取得（通知ベースではない）
@@ -53,13 +53,13 @@ class ControllerMonitor: ObservableObject {
                     
                     self.rightStick = (processedRightX, processedRightY)
                     
-                    // 感度設定を取得（デフォルトは10.0）
-                    let leftSensitivity = self.profileViewModel?.currentStickSensitivity(isLeftStick: true) ?? 10.0
-                    let rightSensitivity = self.profileViewModel?.currentStickSensitivity(isLeftStick: false) ?? 10.0
+                    // 感度設定を取得
+                    let leftSensitivity = self.profileViewModel?.currentStickSensitivity(isLeftStick: true) ?? ControlConstants.defaultSensitivity
+                    let rightSensitivity = self.profileViewModel?.currentStickSensitivity(isLeftStick: false) ?? ControlConstants.defaultSensitivity
                     
                     // 左スティック：カーソル移動（左/右クリック押下中はドラッグとして送る）
-                    let deltaX = processedLeftX * Float(leftSensitivity) * 0.6
-                    let deltaY = -processedLeftY * Float(leftSensitivity) * 0.6
+                    let deltaX = processedLeftX * Float(leftSensitivity) * ControlConstants.leftStickCursorMultiplierX
+                    let deltaY = -processedLeftY * Float(leftSensitivity) * ControlConstants.leftStickCursorMultiplierY
                     if self.profileViewModel?.isLeftClickButtonHeld == true {
                         self.cursorController.moveCursorWhileLeftButtonDown(deltaX: deltaX, deltaY: deltaY)
                     } else if self.profileViewModel?.isRightClickButtonHeld == true {
@@ -75,8 +75,8 @@ class ControllerMonitor: ObservableObject {
                     let horizontalInverted = scrollDirection.horizontalInverted
                     
                     // 方向設定に応じて符号を調整
-                    var scrollX = processedRightX * Float(rightSensitivity) * 1.0
-                    var scrollY = -processedRightY * Float(rightSensitivity) * 1.0
+                    var scrollX = processedRightX * Float(rightSensitivity) * ControlConstants.rightStickScrollMultiplierX
+                    var scrollY = -processedRightY * Float(rightSensitivity) * ControlConstants.rightStickScrollMultiplierY
                     
                     if horizontalInverted {
                         scrollX = -scrollX

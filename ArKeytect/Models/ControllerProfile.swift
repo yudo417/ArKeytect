@@ -138,8 +138,8 @@ struct Layer: Identifiable, Codable, Hashable {
         triggerButtonId: String? = nil,
         triggerButtonIds: [String]? = nil,
         buttonConfigs: [ButtonConfig] = [],
-        leftStickSensitivity: Double = 30.0,
-        rightStickSensitivity: Double = 30.0,
+        leftStickSensitivity: Double = ControlConstants.defaultSensitivityForProfile,
+        rightStickSensitivity: Double = ControlConstants.defaultSensitivityForProfile,
         rightStickScrollVerticalInverted: Bool = true,
         rightStickScrollHorizontalInverted: Bool = true
     ) {
