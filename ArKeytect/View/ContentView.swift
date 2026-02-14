@@ -11,8 +11,8 @@ import AppKit
 
 struct ContentView: View {
     @EnvironmentObject var controllerMonitor: ControllerMonitor
-    @StateObject private var buttonDetector = ButtonDetector()
-    @StateObject private var profileViewModel = ControllerProfileViewModel()
+    @EnvironmentObject var buttonDetector: ButtonDetector
+    @EnvironmentObject var profileViewModel: ControllerProfileViewModel
     
     // ナビゲーション状態
     @State private var columnVisibility = NavigationSplitViewVisibility.all
@@ -41,70 +41,21 @@ struct ContentView: View {
         }
         .onAppear {
             // ControllerMonitorにProfileViewModelへの参照を設定（感度設定を使用するため）
+            // この設定はAppDelegateでも行われているが、念のためここでも設定
             controllerMonitor.profileViewModel = profileViewModel
             
-            buttonDetector.onButtonEvent = { [weak profileViewModel] buttonId, isPressed in
-                guard ControllerEnabledState.shared.isControllerEnabled else { return }
-                profileViewModel?.handleButtonEvent(buttonId: buttonId, isPressed: isPressed)
-            }
-            ProControllerHIDInterceptor.shared.onButtonEvent = { [weak buttonDetector] buttonId, pressed in
-                guard ControllerEnabledState.shared.isControllerEnabled else { return }
-                buttonDetector?.handleExternalButtonEvent(buttonId: buttonId, pressed: pressed)
-            }
+            // ProfileViewModelにButtonDetectorへの参照を設定（念のため）
+            profileViewModel.buttonDetector = buttonDetector
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
                 if !hasInitializedButtons {
                     initializeButtonsFromDetector()
                     hasInitializedButtons = true
                 }
-                updateShortcuts()
+                // ショートカット更新はProfileViewModel内で自動的に行われる
+                profileViewModel.updateShortcuts()
             }
         }
-        .onChange(of: profileViewModel.selectedLayerIndex) { _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) { updateShortcuts() }
-        }
-    }
-    
-    /// 現在のレイヤー設定に基づいてButtonDetectorのショートカットを更新
-    private func updateShortcuts() {
-        guard let profile = profileViewModel.selectedProfile else { return }
-        
-        // 1. ベース設定（Defaultレイヤー）
-        var configMap: [String: ButtonConfig] = [:]
-        if let defaultLayer = profile.layers.first {
-            for config in defaultLayer.buttonConfigs {
-                if let id = config.detectedButtonId {
-                    configMap[id] = config
-                }
-            }
-        }
-        
-        // 2. 現在のレイヤーで上書き（レイヤー0以外の場合）
-        let layerIndex = profileViewModel.selectedLayerIndex
-        if layerIndex != 0 && layerIndex < profile.layers.count {
-            let currentLayer = profile.layers[layerIndex]
-            for config in currentLayer.buttonConfigs {
-                if let id = config.detectedButtonId {
-                    // 設定が存在すれば上書き（keyCodeがnilでも上書き＝無効化）
-                    configMap[id] = config
-                }
-            }
-        }
-        
-        // 3. 有効なショートカットを抽出して適用
-        var shortcutsToRegister: [(String, UInt16, NSEvent.ModifierFlags?)] = []
-        
-        for (_, config) in configMap {
-            // レイヤーシフトボタンではなく、かつキーコードが設定されている場合のみ登録
-            if config.actionType == .keyInput, let keyCode = config.keyCode {
-                shortcutsToRegister.append((
-                    config.detectedButtonId ?? "",
-                    keyCode,
-                    config.modifierFlags
-                ))
-            }
-        }
-        
-        buttonDetector.updateAllShortcuts(configs: shortcutsToRegister)
     }
     
     private func initializeButtonsFromDetector() {
@@ -131,6 +82,8 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environmentObject(ControllerMonitor())
+        .environmentObject(ButtonDetector())
+        .environmentObject(ControllerProfileViewModel())
         .frame(minWidth: 1000, minHeight: 700)
 }
 

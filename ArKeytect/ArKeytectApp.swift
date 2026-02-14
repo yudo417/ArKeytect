@@ -17,14 +17,26 @@ final class ControllerEnabledState: ObservableObject {
 }
 
 /// App が持つ ControllerMonitor をメニューから開く設定ウィンドウで共有するための保持用
-enum StoredControllerMonitor {
-    static weak var instance: ControllerMonitor?
+class StoredControllerMonitor {
+    static let shared = ControllerMonitor()
+    private init() {}
+}
+
+/// App が持つ ButtonDetector をアプリ全体で共有するための保持用
+class StoredButtonDetector {
+    static let shared = ButtonDetector()
+    private init() {}
+}
+
+/// App が持つ ProfileViewModel をアプリ全体で共有するための保持用
+class StoredProfileViewModel {
+    static let shared = ControllerProfileViewModel()
+    private init() {}
 }
 
 @main
 struct ProControlerForMacApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var controllerHandler = ControllerMonitor()
     
     init() {
         ProControllerHIDInterceptor.initializeEarly()
@@ -35,14 +47,11 @@ struct ProControlerForMacApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(storeControllerMonitor(controllerHandler))
+                .environmentObject(StoredControllerMonitor.shared)
+                .environmentObject(StoredButtonDetector.shared)
+                .environmentObject(StoredProfileViewModel.shared)
         }
         .defaultSize(CGSize(width: 1000, height: 700))
-    }
-    
-    private func storeControllerMonitor(_ m: ControllerMonitor) -> ControllerMonitor {
-        StoredControllerMonitor.instance = m
-        return m
     }
     
     func requestAccessibilityPermission() {
@@ -63,6 +72,41 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateStatusItemIcon()
         button.action = #selector(menuBarClicked)
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
+        
+        // バックグラウンドで動作するイベントハンドラを設定
+        // 少し遅延させて、ControllerMonitorの初期化を待つ
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.setupBackgroundEventHandlers()
+        }
+    }
+    
+    private func setupBackgroundEventHandlers() {
+        let buttonDetector = StoredButtonDetector.shared
+        let profileViewModel = StoredProfileViewModel.shared
+        let monitor = StoredControllerMonitor.shared
+        
+        // ProfileViewModelにButtonDetectorへの参照を設定
+        profileViewModel.buttonDetector = buttonDetector
+        
+        // ControllerMonitorにProfileViewModelへの参照を設定
+        monitor.profileViewModel = profileViewModel
+        
+        // ButtonDetectorのイベントハンドラを設定
+        buttonDetector.onButtonEvent = { [weak profileViewModel] buttonId, isPressed in
+            guard ControllerEnabledState.shared.isControllerEnabled else { return }
+            profileViewModel?.handleButtonEvent(buttonId: buttonId, isPressed: isPressed)
+        }
+        
+        // HIDインターセプターのイベントハンドラを設定
+        ProControllerHIDInterceptor.shared.onButtonEvent = { [weak buttonDetector] buttonId, pressed in
+            guard ControllerEnabledState.shared.isControllerEnabled else { return }
+            buttonDetector?.handleExternalButtonEvent(buttonId: buttonId, pressed: pressed)
+        }
+        
+        // 初期ショートカットを更新
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            profileViewModel.updateShortcuts()
+        }
     }
     
     private func updateStatusItemIcon() {
@@ -170,11 +214,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         isOpeningSettings = true
         defer { isOpeningSettings = false }
 
-        let monitor = StoredControllerMonitor.instance ?? ControllerMonitor()
-        if StoredControllerMonitor.instance == nil {
-            StoredControllerMonitor.instance = monitor
-        }
-        let content = ContentView().environmentObject(monitor)
+        let content = ContentView()
+            .environmentObject(StoredControllerMonitor.shared)
+            .environmentObject(StoredButtonDetector.shared)
+            .environmentObject(StoredProfileViewModel.shared)
+        
         let hosting = NSHostingController(rootView: content)
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 1000, height: 700),

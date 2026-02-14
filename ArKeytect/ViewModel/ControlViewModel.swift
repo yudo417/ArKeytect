@@ -58,8 +58,8 @@ class ControllerMonitor: ObservableObject {
                     let rightSensitivity = self.profileViewModel?.currentStickSensitivity(isLeftStick: false) ?? 10.0
                     
                     // 左スティック：カーソル移動（左/右クリック押下中はドラッグとして送る）
-                    let deltaX = processedLeftX * Float(leftSensitivity)
-                    let deltaY = -processedLeftY * Float(leftSensitivity)
+                    let deltaX = processedLeftX * Float(leftSensitivity) * 0.6
+                    let deltaY = -processedLeftY * Float(leftSensitivity) * 0.6
                     if self.profileViewModel?.isLeftClickButtonHeld == true {
                         self.cursorController.moveCursorWhileLeftButtonDown(deltaX: deltaX, deltaY: deltaY)
                     } else if self.profileViewModel?.isRightClickButtonHeld == true {
@@ -75,8 +75,8 @@ class ControllerMonitor: ObservableObject {
                     let horizontalInverted = scrollDirection.horizontalInverted
                     
                     // 方向設定に応じて符号を調整
-                    var scrollX = processedRightX * Float(rightSensitivity) * 2.0
-                    var scrollY = -processedRightY * Float(rightSensitivity) * 1.5
+                    var scrollX = processedRightX * Float(rightSensitivity) * 1.0
+                    var scrollY = -processedRightY * Float(rightSensitivity) * 1.0
                     
                     if horizontalInverted {
                         scrollX = -scrollX

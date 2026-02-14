@@ -37,6 +37,9 @@ class ControllerProfileViewModel: ObservableObject {
     /// 左/右クリックボタンが押しっぱなしか（ドラッグ時にスティックで leftMouseDragged を送るため）
     private(set) var isLeftClickButtonHeld: Bool = false
     private(set) var isRightClickButtonHeld: Bool = false
+    
+    /// ButtonDetectorへの参照（ショートカット更新用）
+    weak var buttonDetector: ButtonDetector?
     /// 選択中のコントローラー
     var selectedController: Controller? {
         guard let id = selectedControllerId else { return nil }
@@ -65,6 +68,16 @@ class ControllerProfileViewModel: ObservableObject {
                 self?.saveData()
             }
             .store(in: &cancellables)
+        
+        // レイヤーインデックスの変更を監視してショートカットを更新
+        $selectedLayerIndex
+            .sink { [weak self] _ in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+                    self?.updateShortcuts()
+                }
+            }
+            .store(in: &cancellables)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { [weak self] in
             self?.loadData()
             self?.setupDefaultData()
@@ -649,6 +662,52 @@ class ControllerProfileViewModel: ObservableObject {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Shortcut Management
+    
+    /// 現在のレイヤー設定に基づいてButtonDetectorのショートカットを更新
+    func updateShortcuts() {
+        guard let profile = selectedProfile else { return }
+        guard let buttonDetector = buttonDetector else { return }
+        
+        // 1. ベース設定（Defaultレイヤー）
+        var configMap: [String: ButtonConfig] = [:]
+        if let defaultLayer = profile.layers.first {
+            for config in defaultLayer.buttonConfigs {
+                if let id = config.detectedButtonId {
+                    configMap[id] = config
+                }
+            }
+        }
+        
+        // 2. 現在のレイヤーで上書き（レイヤー0以外の場合）
+        let layerIndex = selectedLayerIndex
+        if layerIndex != 0 && layerIndex < profile.layers.count {
+            let currentLayer = profile.layers[layerIndex]
+            for config in currentLayer.buttonConfigs {
+                if let id = config.detectedButtonId {
+                    // 設定が存在すれば上書き（keyCodeがnilでも上書き＝無効化）
+                    configMap[id] = config
+                }
+            }
+        }
+        
+        // 3. 有効なショートカットを抽出して適用
+        var shortcutsToRegister: [(String, UInt16, NSEvent.ModifierFlags?)] = []
+        
+        for (_, config) in configMap {
+            // レイヤーシフトボタンではなく、かつキーコードが設定されている場合のみ登録
+            if config.actionType == .keyInput, let keyCode = config.keyCode {
+                shortcutsToRegister.append((
+                    config.detectedButtonId ?? "",
+                    keyCode,
+                    config.modifierFlags
+                ))
+            }
+        }
+        
+        buttonDetector.updateAllShortcuts(configs: shortcutsToRegister)
     }
 }
 
