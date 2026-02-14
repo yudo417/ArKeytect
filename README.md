@@ -2,24 +2,28 @@
 
 ![Swift](https://img.shields.io/badge/Swift-F05138?logo=swift&logoColor=white)
 ![Platform](https://img.shields.io/badge/platform-macOS%2013.0%2B-lightgrey.svg)
-<!-- ![App Store](https://img.shields.io/badge/App%20Store-Available-blue?logo=app-store&logoColor=white) -->
+![App Store](https://img.shields.io/badge/App%20Store-Available-blue?logo=app-store&logoColor=white)
 
-**Nintendo Switch Pro ControllerをmacOSでキーボード・マウスとして使えるキーマッピングアプリです．**
+**Nintendo Switch Pro ControllerをmacOSでキーボード・マウスとして使えるキーマッピングアプリです**
 
+##  App Store
 
-## 💻 システム条件
+App Storeからダウンロードはこちら  
+[App Storeで「ArKeytect」を入手](https://apps.apple.com/jp/app/arkeytect/id6758733203?mt=12)
+
+## 💻 システム条件 / Overview
 
 | プラットフォーム | 対応バージョン |
 |------------------|----------------|
 | **macOS** | macOS 13.0 (Ventura) 以降 |
 
-> **重要**:
-> - Apple シリコン搭載のMacを推奨します
+> **注意**:
+> - 本アプリは**メニューバーの常駐アプリ**です
+> - **アクセシビリティ権限**が必要です（初回起動時に許可を求められます）
 > - Nintendo Switch Pro Controllerが必要です
-<!-- > - アクセシビリティ権限が必要です（初回起動時に許可を求められます） -->
 
 
-## 📋 特徴
+## 📋 特徴 / Feature
 
 ArKeytectは，Switch - ProControllerを使ってMacを快適に操作できるようにする以下の機能を提供しています
 
@@ -37,39 +41,23 @@ ArKeytectは，Switch - ProControllerを使ってMacを快適に操作できる�
    - 右スティックでスクロール操作
    - 感度調整可能
 
-4. **高度な機能**
-   - レイヤー切り替えアクション
-   - マウスクリック操作
+## 🕹️ 操作 / Operation
+### 🖱️ メニューバーでの操作について
+
+macのメニューバーアイコンは、**左右クリックで挙動が異なります**．
+
+- **左クリック**：  
+  ArKeytectの機能の[オン/オフ]の切り替え
+
+- **右クリック**：  
+  メニューが開き，設定や終了など選択できます
 
 
 
-<!-- ## 🎮 使い方
 
-### プロファイル作成
+## お問い合わせ
 
-1. サイドバーの「+」ボタンからコントローラーを追加
-2. 追加したコントローラー内に「+」でプロファイルを作成
-3. ボタンごとに割り当てたいキーを設定
-
-### レイヤー設定
-
-- **Defaultレイヤー**: 常時有効な基本設定
-- **ZRレイヤー**: ZRボタン押下中のみ有効
-- **ZLレイヤー**: ZLボタン押下中のみ有効
-- **ZR+ZLレイヤー**: ZRとZLを同時押し中のみ有効
-
-### ボタン設定
-
-各ボタンには以下のアクションを設定できます:
-- **キー入力**: キーボードのキーを送信
-- **マウスクリック**: 左クリック/右クリック
-- **レイヤー切り替え**: 指定したレイヤーに切り替え -->
-
-
-## 機能要望・バグ報告
-
-新機能の意見や要望，バグ報告があれば，旧Twitter(現X)のDMでお気軽にお聞かせください🙏  
-技術的に可能であれば積極的に検討いたします（ｵﾏﾁｼﾃｵﾘﾏｽ）    
+新機能の意見やその他要望等ございましたら旧Twitter（現X）にお問い合わせお願いします🙏   
 [@yudouhu_Cke](https://x.com/yudouhu_Cke)
 
 
