@@ -11,7 +11,11 @@
 App Storeからダウンロードはこちら  
 [App Storeで「ArKeytect」を入手](https://apps.apple.com/jp/app/arkeytect/id6758733203?mt=12)
 
-## 💻 システム条件 / Overview
+
+<img width="1280" height="800" alt="image 1 (1)" src="https://github.com/user-attachments/assets/05e21e24-f1d1-4557-8ab3-5dbd261d455a" />
+
+
+## 💻 システム条件 / Requirements
 
 | プラットフォーム | 対応バージョン |
 |------------------|----------------|
